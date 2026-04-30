@@ -45,7 +45,6 @@ impl Tile {
     /// method does not know the position. `DungeonMap::parse` is responsible
     /// for injecting the correct position into the error before returning it.
     pub fn from_char(c: char) -> Result<Tile, ParseError> {
-        //todo!()
         match c {
             '#' => Ok(Tile::Wall),
             '.' => Ok(Tile::Floor),
@@ -64,7 +63,6 @@ impl Tile {
     /// Every tile except `Wall` is passable. This method is used by the
     /// flood-fill algorithm in `analysis::reachable_floor_size`.
     pub fn is_passable(&self) -> bool {
-        //todo!()
         !matches!(self, Tile::Wall)
     }
 }

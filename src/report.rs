@@ -56,7 +56,6 @@ use crate::tile::Tile;
 /// `"PlayerStart:"` is the longest label (12 chars + `:`). Pad all labels
 /// to the same width for alignment.
 pub fn generate_report(map: &DungeonMap) -> String {
-    //todo!()
     let mut report = String::new();
     let counts = map.count_tiles();
     report.push_str("=== Dungeon Report ===\n");

@@ -63,6 +63,8 @@ impl DungeonMap {
             .lines()
             .enumerate()
             .map(|(row_idx, line)| {
+                let line = line.strip_suffix('\r').unwrap_or(line);
+
                 let row: Vec<Tile> = line
                     .chars()
                     .enumerate()
@@ -81,12 +83,9 @@ impl DungeonMap {
                     })
                     .collect::<Result<Vec<_>, _>>()?;
 
-                Ok((row_idx, row))
+                Ok(row)
             })
-            .collect::<Result<Vec<_>, ParseError>>()?
-            .into_iter()
-            .map(|(_, row)| row)
-            .collect();
+            .collect::<Result<Vec<_>, ParseError>>()?;
 
         let height = grid.len();
         let width = grid.first().map_or(0, |r| r.len());
@@ -115,7 +114,6 @@ impl DungeonMap {
     /// Returns `None` if the position is out of bounds.
     /// The returned reference has the same lifetime as `&self`.
     pub fn get(&self, pos: Position) -> Option<&Tile> {
-        //todo!()
         let (row, col) = pos;
         if row < self.height && col < self.width {
             Some(&self.tiles[row][col])
@@ -141,8 +139,6 @@ impl DungeonMap {
     /// Note: returning `impl Iterator` from a method requires understanding
     /// that the iterator borrows from `&self`.
     pub fn rows(&self) -> impl Iterator<Item = &Vec<Tile>> {
-        // Replace this body with your implementation.
-        // std::iter::empty() is here only so the skeleton compiles.
         self.tiles.iter()
     }
 
@@ -158,7 +154,6 @@ impl DungeonMap {
     /// `self.rows().flat_map(|row| row.iter())` gives you a flat iterator
     /// over every tile in the map.
     pub fn count_tiles(&self) -> HashMap<Tile, usize> {
-        //todo!()
         let mut counts = HashMap::new();
         for row in self.rows().flat_map(|row| row.iter()) {
             match counts.get(row) {
@@ -174,7 +169,6 @@ impl DungeonMap {
     ///
     /// Returns an empty `Vec` if the tile does not appear in the map.
     pub fn find_all(&self, tile: Tile) -> Vec<Position> {
-        //todo!()
         let mut positions = Vec::new();
         for (row_idx, row) in self.rows().enumerate() {
             for (col_idx, t) in row.iter().enumerate() {
@@ -205,7 +199,6 @@ impl DungeonMap {
     /// Build a `Vec<ValidationError>`, push to it for each failing condition,
     /// and return `Err(errors)` at the end if it is non-empty.
     pub fn validate(&self) -> Result<(), Vec<ValidationError>> {
-        //todo!()
         let player_starts = self.find_all(Tile::PlayerStart);
         let exits = self.find_all(Tile::Exit);
         let floors = self.find_all(Tile::Floor);
